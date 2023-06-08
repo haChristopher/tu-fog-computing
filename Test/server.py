@@ -8,7 +8,7 @@ socket.bind("tcp://127.0.0.1:7000")
 while True:
     #  Wait for next request from client
     message = socket.recv()
-    print('Received request: %r' % message)
+    print("Received request: %r" % message)
 
     #  Do some 'work'
     time.sleep(1)
