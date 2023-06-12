@@ -6,23 +6,13 @@ url_client = "tcp://*:5555"
 # A context creates sockets
 context = zmq.Context()
 # or zmq.PUB
+# socket of type RESPONSE
 socket = context.socket(zmq.REP)
 socket.bind(url_client)
 
+# server waits now for messages ...
+
 # EXAMPLE_1
-# logic of the messaging
-# message = [100, 200, 300]
-# curMsg = 0
-
-# while True:
-#     time.sleep(1)
-#     socket.send_pyobj({curMsg: message[curMsg]})
-#     if (curMsg == 2):
-#         curMsg = 0
-#     else:
-#         curMsg += 1
-
-# EXAMPLE_2
 while True:
     #  Wait for next request from client
     message = socket.recv()
