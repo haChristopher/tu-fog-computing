@@ -1,5 +1,7 @@
 import time
 import zmq
+from util import average_sensor_data
+
 
 url_client = "tcp://*:5555"
 
@@ -15,12 +17,21 @@ socket.bind(url_client)
 # EXAMPLE_1
 while True:
     #  Wait for next request from client
-    message = socket.recv()
+
+    # receive sensor data
+    data = socket.recv_pyobj()
+    print("Received sensor data from client: % s" % data)
+    print("Processing ... Processing")
+    print()
+
     # decode a byte into a str --> decode()
-    print("Received request from client: %s" % message.decode())
+    # print("Received request from client: %s" % message.decode())
 
     #  Do some 'work'
     time.sleep(2)
+    average_data = average_sensor_data(data)
+    # print(average_data)
 
     #  Send reply back to client
-    socket.send(b"World", track=True)
+    # socket.send(b"World", track=True)
+    socket.send_pyobj(average_data)
