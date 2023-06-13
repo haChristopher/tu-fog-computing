@@ -9,7 +9,9 @@ url_client = "tcp://*:5555"
 context = zmq.Context()
 # or zmq.PUB
 # socket of type RESPONSE
-socket = context.socket(zmq.REP)
+socket = context.asyncio.socket(zmq.PULL)
+socket.setsockopt(zmq.RCVBUF, 0)
+socket.setsockopt(zmq.HWM, 0)
 socket.bind(url_client)
 
 # server waits now for messages ...
@@ -34,4 +36,4 @@ while True:
 
     #  Send reply back to client
     # socket.send(b"World", track=True)
-    socket.send_pyobj(average_data)
+    # socket.send_pyobj(average_data)
