@@ -1,0 +1,27 @@
+# Spins up all 3 components locally:
+# - Edge device
+# - Cloud server
+# - Dashboard
+# - Database
+
+services:
+  edge-client:
+    image: edge-client
+    build:
+      context: ./edge-device
+      dockerfile: Dockerfile.edge
+    environment:
+      - SERVER_ADDRESS=tcp://cloud-server:5555
+    networks:
+      - my-shared-network
+
+  cloud-server:
+    image: cloud-server
+    build:
+      context: ./cloud-server
+      dockerfile: Dockerfile.cloud
+    networks:
+      - my-shared-network
+
+networks:
+  my-shared-network: {}

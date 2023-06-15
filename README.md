@@ -2,9 +2,20 @@
 Project for Fog Computing Course
 
 
+# Docker Compose for running Locally
 
-# Build Edge Docker Container
+All 3 components can be run locally using docker-compose
+```
+docker-compose up
+```
 
-````
-docker build test -f dockerfile.edge -t zmq-edge
-````
+After changes you need to rebuild
+```
+docker-compose build
+```
+
+Running a single service:
+
+```
+docker-compose up cloud-server
+```
