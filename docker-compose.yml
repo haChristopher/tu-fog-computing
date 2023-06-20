@@ -5,6 +5,7 @@
 # - Database
 
 services:
+
   edge-client:
     image: edge-client
     build:
@@ -20,6 +21,16 @@ services:
     build:
       context: ./cloud-server
       dockerfile: Dockerfile.cloud
+    networks:
+      - my-shared-network
+
+  cloud-backend:
+    image: cloud-backend
+    build:
+      context: ./cloud-backend
+      dockerfile: Dockerfile.backend
+    ports:
+      - "5000:5000"
     networks:
       - my-shared-network
 
