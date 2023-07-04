@@ -16,7 +16,7 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
-    current_version = "v1"
+    current_version = "v2"
     if test_config is None:
         # load the instance config, if it exists, when not testing
         app.config.from_pyfile('config.py', silent=True)
@@ -38,7 +38,7 @@ def create_app(test_config=None):
     def hello():
         return 'Hello, World!'
 
-    @app.route('/api/<version>', methods=['POST'])
+    @app.route('/api/<version>/submit', methods=['POST'])
     def submit_data(version):
         if str(version).lower() != current_version:
             return jsonify({'error': 'Version not supported yet'}), 400
@@ -79,6 +79,42 @@ def create_app(test_config=None):
                 return jsonify({'error': str(e)}), 500
 
            
+    @app.route('/api/<version>', methods=['GET'])
+    def get_data(version):
+        if str(version).lower() != current_version:
+            return jsonify({'error': 'Version not supported yet'}), 400
+        else:
+            # check if city exists
+            city = request.args.get('city')
+            if city is None:
+                error_message = {'error': 'City parameter is missing'}
+                return jsonify(error_message), 400
+            else:
+                # find city results in db 
+                collection = db['weather_v2']
+                city_data = collection.find({'city': city}).sort('time_of_measurement', -1).limit(10)
+                results = []
+                for data in city_data:
+                    results.append({
+                        'city': data['city'],
+                        'country': data['country'],
+                        'time_of_measurement': data['time_of_measurement'],
+                        'temperature': data['temperature'],
+                        'pressure': data['pressure'],
+                        'humidity': data['humidity'],
+                        'wind_speed': data['wind_speed'],
+                        'weather_condition': data['weather_condition'],
+                        'timestamp_request': data['timestamp_request']
+                    })
+
+                if len(results) == 0:
+                    error_message = {'message': f'No data found for {city}'}
+                    return jsonify(error_message), 404
+                return jsonify(results)
+                
+            
+
+
 
 
 

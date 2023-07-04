@@ -20,29 +20,58 @@ csv_file = config_data['csv_file']
 time_delay = config_data['time_delay']
 
 
-def get_current_weather():
+# def get_current_weather():
+#     try:
+#         url = f"https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&appid={api_key}&lang=de"
+#         x = requests.Session()
+#         s = x.get(url)
+#         if(s.status_code == 200):
+#             result = json.loads(s.text)
+#             resp_obj = {
+#                 "lat":lat,
+#                 "lon":lon,
+#                 "timezone":result["timezone"],
+#                 "sunrise_unix":result["current"]["sunrise"],
+#                 "sunset_unix":result["current"]["sunset"],
+#                 "temp":result["current"]["temp"],
+#                 "pressure":result["current"]["pressure"],
+#                 "humidity":result["current"]["humidity"],
+#                 "wind_speed":result["current"]["wind_speed"],
+#                 "weather_naming":result["current"]["weather"][0]["description"],
+#                 "timestamp":int(time.time())
+#             }
+#             append_json_to_csv(resp_obj)
+#         else:
+#             raise Exception ("Error parsing data - {}".format(s.status_code))
+#     except Exception as e:
+#         print("[weather-parser] - Error [{0}]".format(e))
+
+
+def get_current_new():
     try:
-        url = f"https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&appid={api_key}&lang=de"
-        x = requests.Session()
-        s = x.get(url)
-        if(s.status_code == 200):
-            result = json.loads(s.text)
-            resp_obj = {
-                "lat":lat,
-                "lon":lon,
-                "timezone":result["timezone"],
-                "sunrise_unix":result["current"]["sunrise"],
-                "sunset_unix":result["current"]["sunset"],
-                "temp":result["current"]["temp"],
-                "pressure":result["current"]["pressure"],
-                "humidity":result["current"]["humidity"],
-                "wind_speed":result["current"]["wind_speed"],
-                "weather_naming":result["current"]["weather"][0]["description"],
-                "timestamp":int(time.time())
-            }
-            append_json_to_csv(resp_obj)
-        else:
-            raise Exception ("Error parsing data - {}".format(s.status_code))
+        cities = ["Berlin", "Hamburg","München"]
+        for city in cities:
+            url = f"http://api.weatherapi.com/v1/current.json?key={api_key}&q={city}&aqi=no"
+            x = requests.Session()
+            s = x.get(url)
+            if(s.status_code == 200):
+                result = json.loads(s.text)
+                resp_obj = {
+                    "city":city,
+                    "country":result["location"]["country"],
+                    "localtime_measurement":result["location"]["localtime_epoch"],
+                    "temp":result["current"]["temp_c"],
+                    "pressure":result["current"]["pressure_mb"],
+                    "humidity":result["current"]["humidity"],
+                    "wind_speed":result["current"]["wind_kph"],
+                    "weather_naming":result["current"]["condition"]["text"],
+                    "timestamp":int(time.time())
+                }
+                
+                append_json_to_csv(resp_obj)
+            else:
+                raise Exception ("Error parsing data - {}".format(s.status_code))
+        
     except Exception as e:
         print("[weather-parser] - Error [{0}]".format(e))
 
@@ -62,5 +91,5 @@ def append_json_to_csv(json_data):
 
 if __name__ == "__main__":
     while True:
-        get_current_weather()
+        get_current_new()
         time.sleep(time_delay)
