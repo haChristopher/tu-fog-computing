@@ -2,7 +2,7 @@ import os
 from flask import Flask, jsonify, request
 import pymongo
 import config, certifi
-
+from flask_swagger import swagger
 
 url = f"mongodb+srv://{config.db_user}:{config.db_}@fog.m9hlcut.mongodb.net/?retryWrites=true&w=majority"
 cluster = pymongo.MongoClient(url, tlsCAFile=certifi.where(), connect=False)
@@ -34,10 +34,6 @@ def create_app(test_config=None):
 
 
 ################################ Main routes ################################
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
-
     @app.route('/api/<version>/submit', methods=['POST'])
     def submit_data(version):
         if str(version).lower() != current_version:
@@ -79,7 +75,7 @@ def create_app(test_config=None):
                 return jsonify({'error': str(e)}), 500
 
            
-    @app.route('/api/<version>', methods=['GET'])
+    @app.route('/api/<version>/get_single', methods=['GET'])
     def get_data(version):
         if str(version).lower() != current_version:
             return jsonify({'error': 'Version not supported yet'}), 400
@@ -91,7 +87,7 @@ def create_app(test_config=None):
                 return jsonify(error_message), 400
             else:
                 # find city results in db 
-                collection = db['weather_v2']
+                collection = db['weather_v3']
                 city_data = collection.find({'city': city}).sort('time_of_measurement', -1).limit(10)
                 results = []
                 for data in city_data:
@@ -99,30 +95,61 @@ def create_app(test_config=None):
                         'city': data['city'],
                         'country': data['country'],
                         'time_of_measurement': data['time_of_measurement'],
-                        'temperature': data['temperature'],
+                        'temperature' : data["temperature"],
                         'pressure': data['pressure'],
                         'humidity': data['humidity'],
                         'wind_speed': data['wind_speed'],
-                        'weather_condition': data['weather_condition'],
+                        'weather_naming': data['weather_naming'],
                         'timestamp_request': data['timestamp_request']
                     })
-
+                  
                 if len(results) == 0:
                     error_message = {'message': f'No data found for {city}'}
                     return jsonify(error_message), 404
                 return jsonify(results)
                 
-            
+    @app.route('/api/<version>/get_all', methods=['GET'])
+    def get_all(version):
+        if str(version).lower() != current_version:
+            return jsonify({'error': 'Version not supported yet'}), 400
+        else:
+            # find city results in db 
+            collection = db['weather_v3']
+            # Get distinct city names
+            distinct_cities = collection.distinct('city')
+
+            # cities = ["Hamburg", "Berlin", "München"]
+            results = []
+            for city in distinct_cities:
+                res = collection.find({'city': city}).sort('time_of_measurement', -1).limit(10)
+                for data in res:
+                    results.append({
+                        'city': city,
+                        'country': data['country'],
+                        'time_of_measurement': data['time_of_measurement'],
+                        'temperature' : data["temperature"],
+                        'pressure': data['pressure'],
+                        'humidity': data['humidity'],
+                        'wind_speed': data['wind_speed'],
+                        'weather_naming': data['weather_naming'],
+                        'timestamp_request': data['timestamp_request']
+                    })
+                    if len(results) == 0:
+                        error_message = {'message': f'No data found for {city}'}
+                        return jsonify(error_message), 404
+            return jsonify(results)
 
 
+    ############ Error handling  + Additional #############
+    @app.route("/spec")
+    def spec():
+        return jsonify(swagger(app))
+    
 
-
-
-
-    ############ Error handling #############
     @app.errorhandler(404)
     def not_found(error):
         return jsonify({'error': 'Not found :('}), 404
+    
 
     @app.errorhandler(500)
     def internal_server_error(error):
