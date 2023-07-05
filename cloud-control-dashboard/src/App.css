@@ -1,38 +1,23 @@
-.App {
-  text-align: center;
+.header {
+  margin-top: 50;
+  display: grid; /* Use CSS grid layout */
+  grid-template-columns: 1fr 1fr; /* Divide the container into two columns */
+  grid-gap: 10px; /* Add gap between the divs */
+  height: 150px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.text {
+  flex: 0.8;
+  margin-left: 50;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.buttons {
+  flex: 1.3;
+  padding-bottom: 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.container {
+  display: grid; /* Use CSS grid layout */
+  grid-template-columns: 1fr 1fr; /* Divide the container into two columns */
+  grid-gap: 10px; /* Add gap between the divs */
 }

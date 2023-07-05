@@ -1,17 +1,24 @@
 import os
 from flask import Flask, jsonify, request
 import pymongo
-import config, certifi
+from pymongo import MongoClient
+import config
+import certifi
 from flask_swagger import swagger
+from flask_cors import CORS
 
 url = f"mongodb+srv://{config.db_user}:{config.db_}@fog.m9hlcut.mongodb.net/?retryWrites=true&w=majority"
-cluster = pymongo.MongoClient(url, tlsCAFile=certifi.where(), connect=False)
+cluster: MongoClient = pymongo.MongoClient(url, tlsCAFile=certifi.where(), connect=False)
 db = cluster['weather-storage'] 
 
 # Creates the application and loads configuration from config.py or environment variables
 # This is good for using docker
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
+    
+    # allows the react App (dashbors to fetch data from the flask app)
+    cors = CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+    
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),

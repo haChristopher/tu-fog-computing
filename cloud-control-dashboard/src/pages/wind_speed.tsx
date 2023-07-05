@@ -15,6 +15,7 @@ import {
   LineController,
   LineElement,
 } from "chart.js";
+import { isConstructorDeclaration } from "typescript";
 
 Chart.register(
   LinearScale,
@@ -45,7 +46,7 @@ interface State {
   chartData: ChartData;
 }
 
-class Home extends Component<{}, State> {
+class WindSpeed extends Component<{}, State> {
   private interval: NodeJS.Timeout | null = null;
 
   constructor(props: any) {
@@ -70,27 +71,27 @@ class Home extends Component<{}, State> {
 
   componentDidMount() {
     // Start the interval when the component mounts
-    this.interval = setInterval(this.addRandomDataPoint, 3000);
+    this.interval = setInterval(this.addRandomDataPoint, 5000);
   }
 
-  componentWillUnmount() {
-    // Clear the interval when the component unmounts
-    if (this.interval) {
-      clearInterval(this.interval);
-    }
-  }
+  // hier GET data einbauen
+  async getTempDataPoint() {
+    const response = await fetch(
+      "http://127.0.0.1:5000/api/v2/get_single?city=Berlin"
+    );
+    const data = await response.json();
+    const data_temperature = data[0].wind_speed;
+    //console.log(data_temperature);
 
-  getRandomDataPoint(): DataPoint {
     const startTime = new Date().getTime();
     const time = new Date(startTime).toISOString();
-    const value = Math.floor(Math.random() * 100);
-    return { x: time, y: value };
+    return { x: time, y: data_temperature };
   }
 
-  addRandomDataPoint() {
+  async addRandomDataPoint() {
+    const newDataPoint = await this.getTempDataPoint();
     this.setState((prevState) => {
       const newData = [...prevState.chartData.datasets[0].data];
-      const newDataPoint = this.getRandomDataPoint();
       newData.push(newDataPoint);
 
       return {
@@ -124,26 +125,16 @@ class Home extends Component<{}, State> {
     };
 
     return (
-      <div className="main">
-        <div className="header">
-          <Typography variant="h5">Weather Station Dashboard</Typography>
-        </div>
-
+      <div className="wind_speed">
         <div className="content">
-          <div className="buttons">
-            <Button variant="outlined">Weather Station Berlin</Button>
-            <Button variant="outlined">Weather Station Spain</Button>
-            <Button variant="outlined">Weather Station USA</Button>
-          </div>
+          <p>Wind speed</p>
           <div className="graphs">
             <Line data={chartData} options={chartOptions} id="chart1" />
           </div>
         </div>
-
-        <div className="footer"></div>
       </div>
     );
   }
 }
 
-export default Home;
+export default WindSpeed;

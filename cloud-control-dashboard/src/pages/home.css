@@ -10,10 +10,15 @@
 .footer {
   display: flex;
   align-items: center;
-  padding: 0 30px;
-  height: 60px;
+  padding: 0px;
+  height: 50px;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: -25px;
+}
+
+.text {
+  text-align: center;
 }
 
 .content {
@@ -25,13 +30,19 @@
   margin-bottom: auto;
 }
 
+.content p {
+  text-align: center;
+  font-size: 20px;
+}
+
 .buttons {
   display: flex;
   flex-direction: row;
   column-gap: 20px;
   justify-content: center;
   align-items: center;
-  padding-bottom: 50px;
+  padding-bottom: 20px;
+  margin-right: 20px;
 }
 
 .graphs {
@@ -40,5 +51,5 @@
   flex-direction: row;
   column-gap: 30px;
   justify-content: center;
-  height: 600px;
+  height: 285px;
 }
