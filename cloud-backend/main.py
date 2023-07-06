@@ -4,7 +4,7 @@ import pymongo
 from pymongo import MongoClient
 import config
 import certifi
-from flask_swagger import swagger
+from flask_swagger_ui import get_swaggerui_blueprint
 from flask_cors import CORS
 
 url = f"mongodb+srv://{config.db_user}:{config.db_}@fog.m9hlcut.mongodb.net/?retryWrites=true&w=majority"
@@ -16,6 +16,21 @@ db = cluster['weather-storage']
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     
+    SWAGGER_URL = '/api/docs'  # URL for exposing Swagger UI (without trailing '/')
+    API_URL = '/swagger.json' 
+
+    # Call factory function to create our blueprint
+    swaggerui_blueprint = get_swaggerui_blueprint(
+        SWAGGER_URL,  # Swagger UI static files will be mapped to '{SWAGGER_URL}/dist/'
+        API_URL,
+        config={  # Swagger UI config overrides
+            'app_name': "Weather API"
+        }
+    )   
+    app.register_blueprint(swaggerui_blueprint)
+
+
+
     # allows the react App (dashbors to fetch data from the flask app)
     cors = CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
     
@@ -152,9 +167,166 @@ def create_app(test_config=None):
 
 
     ############ Error handling  + Additional #############
-    @app.route("/spec")
-    def spec():
-        return jsonify(swagger(app))
+    # Define your Flask routes and generate the Swagger specification dynamically
+    @app.route('/swagger.json', methods=['GET'])
+    def swagger_json():
+        swagger_spec = {
+            "swagger": "2.0",
+            "info": {
+                "title": "Weather API",
+                "version": "1.0.0"
+            },
+            "paths": {
+                "/api/v2/submit": {
+                    "post": {
+                        "summary": "Submit weather data",
+                        "description": "Endpoint to submit weather data",
+                        "parameters": [
+                            {
+                                "name": "version",
+                                "in": "path",
+                                "description": "API version",
+                                "required": True,
+                                "type": "string"
+                            },
+                            {
+                                "name": "data",
+                                "in": "body",
+                                "description": "Weather data",
+                                "required": True,
+                                "schema": {
+                                    "$ref": "#/definitions/WeatherData"
+                                }
+                            }
+                        ],
+                        "responses": {
+                            "201": {
+                                "description": "Data submitted successfully"
+                            },
+                            "400": {
+                                "description": "Invalid request or missing data"
+                            },
+                            "500": {
+                                "description": "Internal server error"
+                            }
+                        }
+                    }
+                },
+                "/api/v2/get_single": {
+                    "get": {
+                        "summary": "Get weather data for a single city",
+                        "description": "Endpoint to retrieve weather data for a single city",
+                        "parameters": [
+                            {
+                                "name": "version",
+                                "in": "path",
+                                "description": "API version",
+                                "required": True,
+                                "type": "string"
+                            },
+                            {
+                                "name": "city",
+                                "in": "query",
+                                "description": "City name",
+                                "required": True,
+                                "type": "string"
+                            }
+                        ],
+                        "responses": {
+                            "200": {
+                                "description": "Success",
+                                "schema": {
+                                    "$ref": "#/definitions/WeatherData"
+                                }
+                            },
+                            "400": {
+                                "description": "Invalid request or missing data"
+                            },
+                            "404": {
+                                "description": "Data not found"
+                            }
+                        }
+                    }
+                },
+                "/api/v2/get_all": {
+                    "get": {
+                        "summary": "Get weather data for all cities",
+                        "description": "Endpoint to retrieve weather data for all cities",
+                        "parameters": [
+                            {
+                                "name": "version",
+                                "in": "path",
+                                "description": "API version",
+                                "required": True,
+                                "type":"string"
+                            }
+                        ],
+                        "responses": {
+                            "200": {
+                                "description": "Success",
+                                "schema": {
+                                    "$ref": "#/definitions/WeatherData"
+                                }
+                            },
+                            "400": {
+                                "description": "Invalid request or missing data"
+                            },
+                            "404": {
+                                "description": "Data not found"
+                            }
+                        }
+                    }
+                }
+            },
+            "definitions": {
+                "WeatherData": {
+                    "type": "object",
+                    "properties": {
+                        "city": {
+                            "type": "string"
+                        },
+                        "country": {
+                            "type": "string"
+                        },
+                        "time_of_measurement": {
+                            "type": "integer"
+                        },
+                        "temperature": {
+                            "type": "number"
+                        },
+                        "pressure": {
+                            "type": "number"
+                        },
+                        "humidity": {
+                            "type": "integer"
+                        },
+                        "wind_speed": {
+                            "type": "number"
+                        },
+                        "weather_naming": {
+                            "type": "string"
+                        },
+                        "timestamp_request": {
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "city",
+                        "country",
+                        "time_of_measurement",
+                        "temperature",
+                        "pressure",
+                        "humidity",
+                        "wind_speed",
+                        "weather_naming",
+                        "timestamp_request"
+                    ]
+                }
+            }
+        }
+
+        return jsonify(swagger_spec)
+
     
 
     @app.errorhandler(404)
