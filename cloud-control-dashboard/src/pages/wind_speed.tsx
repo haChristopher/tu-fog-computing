@@ -56,7 +56,7 @@ class WindSpeed extends Component<{}, State> {
       chartData: {
         datasets: [
           {
-            label: "Data",
+            label: "Wind speed",
             data: [],
             fill: false,
             borderColor: "rgba(75, 192, 192, 1)",
@@ -141,7 +141,7 @@ class WindSpeed extends Component<{}, State> {
     return (
       <div className="wind_speed">
         <div className="content">
-          <p>Wind speed</p>
+          {/* <p>Wind speed</p> */}
           <div className="graphs">
             <Line data={chartData} options={chartOptions} id="chart1" />
           </div>

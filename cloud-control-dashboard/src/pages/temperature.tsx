@@ -56,7 +56,7 @@ class Temperature extends Component<{}, State> {
       chartData: {
         datasets: [
           {
-            label: "Data",
+            label: "Temperature",
             data: [],
             fill: false,
             borderColor: "rgba(75, 192, 192, 1)",
@@ -76,6 +76,7 @@ class Temperature extends Component<{}, State> {
 
   // hier GET data einbauen
   async getTempDataPoints() {
+    // const berlin = "http://127.0.0.1:5000/api/v2/get_single?city=Berlin";
     const response = await fetch(
       "http://127.0.0.1:5000/api/v2/get_single?city=Berlin"
     );
@@ -142,7 +143,7 @@ class Temperature extends Component<{}, State> {
     return (
       <div className="temperature">
         <div className="content">
-          <p>Temperature</p>
+          {/* <p>Temperature</p> */}
           <div className="graphs">
             {/* "Line" creates line chart */}
             <Line data={chartData} options={chartOptions} id="chart1" />
