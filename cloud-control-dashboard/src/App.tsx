@@ -14,8 +14,8 @@ function App() {
       <div className="container">
         <Temperature />
         <WindSpeed />
-        <Humidity />
-        <Pressure />
+        {/* <Humidity />
+        <Pressure /> */}
       </div>
     </>
     // <Router>

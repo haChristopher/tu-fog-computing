@@ -66,45 +66,59 @@ class WindSpeed extends Component<{}, State> {
       },
     };
 
-    this.addRandomDataPoint = this.addRandomDataPoint.bind(this);
+    this.addWindDataPoint = this.addWindDataPoint.bind(this);
   }
 
   componentDidMount() {
     // Start the interval when the component mounts
-    this.interval = setInterval(this.addRandomDataPoint, 5000);
+    this.interval = setInterval(this.addWindDataPoint, 5000);
   }
 
   // hier GET data einbauen
-  async getTempDataPoint() {
+  async getWindDataPoint() {
     const response = await fetch(
       "http://127.0.0.1:5000/api/v2/get_single?city=Berlin"
     );
     const data = await response.json();
-    const data_temperature = data[0].wind_speed;
-    //console.log(data_temperature);
+    let windDataArray = [];
 
-    const startTime = new Date().getTime();
-    const time = new Date(startTime).toISOString();
-    return { x: time, y: data_temperature };
+    for (let i = 0; i < data.length; i++) {
+      // unix timestamp
+      let timeMesurement = data[i].time_of_measurement;
+      // convert to date
+      let date = new Date(timeMesurement * 1000).toISOString();
+
+      let wind = data[i].wind_speed;
+      let dataPoint = { x: date, y: wind };
+      // console.log(timeMesurement, date, `Wind: ${wind}`);
+
+      windDataArray.push(dataPoint);
+    }
+    return windDataArray;
   }
 
-  async addRandomDataPoint() {
-    const newDataPoint = await this.getTempDataPoint();
-    this.setState((prevState) => {
-      const newData = [...prevState.chartData.datasets[0].data];
-      newData.push(newDataPoint);
+  async addWindDataPoint() {
+    const arrayWithDataPoints = await this.getWindDataPoint();
+    // console.log("Inside the addRandomDataPoint", arrayWithDataPoint);
+    for (let i = 0; i < arrayWithDataPoints.length; i++) {
+      let newDataPoint = arrayWithDataPoints[i];
 
-      return {
-        chartData: {
-          datasets: [
-            {
-              ...prevState.chartData.datasets[0],
-              data: newData,
-            },
-          ],
-        },
-      };
-    });
+      this.setState((prevState) => {
+        const newData = [...prevState.chartData.datasets[0].data];
+        newData.push(newDataPoint);
+
+        return {
+          chartData: {
+            datasets: [
+              {
+                ...prevState.chartData.datasets[0],
+                data: newData,
+              },
+            ],
+          },
+        };
+      });
+    }
   }
 
   render() {

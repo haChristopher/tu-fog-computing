@@ -15,7 +15,7 @@ export default function Buttons() {
         <div className="buttons">
           <Button variant="outlined">Weather Station Berlin</Button>
           <Button variant="outlined">Weather Station Hamburg</Button>
-          <Button variant="outlined">Weather Station USA</Button>
+          <Button variant="outlined">Weather Station München</Button>
         </div>
       </div>
     </>
