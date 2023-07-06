@@ -3,9 +3,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# sqlite db
-*.db
-
 # C extensions
 *.so
 

@@ -1,6 +1,4 @@
 import { Component } from "react";
-import { Typography } from "@mui/material";
-import Button from "@mui/material/Button";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-date-fns";
 import "./home.css";
@@ -15,7 +13,6 @@ import {
   LineController,
   LineElement,
 } from "chart.js";
-import { isConstructorDeclaration } from "typescript";
 
 Chart.register(
   LinearScale,
@@ -86,15 +83,16 @@ class Temperature extends Component<{}, State> {
 
     for (let i = 0; i < data.length; i++) {
       // unix timestamp
-      let timeMesurement = data[i].time_of_measurement;
+      let timeMeasurement = data[i].time_of_measurement;
       // convert to date
-      let date = new Date(timeMesurement * 1000).toISOString();
+      let date = new Date(timeMeasurement * 1000).toISOString();
 
       let temp = data[i].temperature;
       let dataPoint = { x: date, y: temp };
-      // console.log(timeMesurement, date, `Temperature: ${temp}`);
+      // console.log(timeMeasurement, date, `Temperature: ${temp}`);
 
-      temperatureDataArray.push(dataPoint);
+      // unshift will put it at the beginning of the array (order is then correct)
+      temperatureDataArray.unshift(dataPoint);
     }
     return temperatureDataArray;
   }
@@ -102,26 +100,26 @@ class Temperature extends Component<{}, State> {
   async addTempDataPoint() {
     const arrayWithDataPoints = await this.getTempDataPoints();
     // console.log("Inside the addRandomDataPoint", arrayWithDataPoint);
-    for (let i = 0; i < arrayWithDataPoints.length; i++) {
-      let newDataPoint = arrayWithDataPoints[i];
+    // for (let i = 0; i < arrayWithDataPoints.length; i++) {
+    //   let newDataPoint = arrayWithDataPoints[i];
 
-      this.setState((prevState) => {
-        const newData = [...prevState.chartData.datasets[0].data];
-        newData.push(newDataPoint);
+    this.setState((prevState) => {
+      //const newData = [...prevState.chartData.datasets[0].data];
+      //newData.push(newDataPoint);
 
-        return {
-          chartData: {
-            datasets: [
-              {
-                ...prevState.chartData.datasets[0],
-                data: newData,
-              },
-            ],
-          },
-        };
-      });
-    }
+      return {
+        chartData: {
+          datasets: [
+            {
+              ...prevState.chartData.datasets[0],
+              data: arrayWithDataPoints,
+            },
+          ],
+        },
+      };
+    });
   }
+  
 
   render() {
     const { chartData } = this.state;

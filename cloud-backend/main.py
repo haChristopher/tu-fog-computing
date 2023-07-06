@@ -1,4 +1,5 @@
 import os
+import json
 from flask import Flask, jsonify, request
 import pymongo
 from pymongo import MongoClient
@@ -10,6 +11,7 @@ from flask_cors import CORS
 url = f"mongodb+srv://{config.db_user}:{config.db_}@fog.m9hlcut.mongodb.net/?retryWrites=true&w=majority"
 cluster: MongoClient = pymongo.MongoClient(url, tlsCAFile=certifi.where(), connect=False)
 db = cluster['weather-storage'] 
+
 
 # Creates the application and loads configuration from config.py or environment variables
 # This is good for using docker
@@ -68,13 +70,14 @@ def create_app(test_config=None):
                 # Get the JSON data from the request
                 data = request.get_json()
 
+                # Convert data if string
+                if type(data) == str:
+                    data = json.loads(data)
+    
                 # Define the required fields
-
                 required_fields = ['city','country','time_of_measurement','temperature','pressure','humidity','wind_speed',
                                     'weather_naming','timestamp_request']
 
-
-                
 
                 # Create a dictionary from the JSON data
                 doc = {field: data[field] for field in required_fields}

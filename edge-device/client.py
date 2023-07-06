@@ -78,7 +78,7 @@ def db_sender():
                 log.warning("No ACK received, storing in D")
                 db_helper.increase_send_attempt(conn, id)
         
-        # time.sleep(2)
+        time.sleep(2)
 
 def sender():
     socket = get_socket(URL_CLIENT)
