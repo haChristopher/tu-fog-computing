@@ -3,7 +3,7 @@ import sys
 import time
 import random
 import logging as log
-
+from sensor import SensorDataGenerator
 import zmq
 import zmq.asyncio
 
@@ -22,14 +22,15 @@ socket = context.socket(zmq.PUSH)
 socket.setsockopt(zmq.SNDHWM, 0)
 socket.setsockopt(zmq.SNDBUF, 0)
 socket.connect(url_client)
+sensor_generator = SensorDataGenerator()
 
 def run():
     while True:
-        random_data = [random.random() for _ in range(5)]
-        log.info(f"Sending sensor data {random_data}")
-        socket.send_pyobj(random_data)
+        sensor_data = sensor_generator.generate_sensor_data()
+        log.info(f"Sending sensor_data - {sensor_data}")
+        socket.send_pyobj(sensor_data)
 
-        time.sleep(2)
+        time.sleep(4)
 
 
 if __name__ == "__main__":
