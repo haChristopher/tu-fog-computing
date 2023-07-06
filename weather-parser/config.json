@@ -1,6 +1,6 @@
 {
     "URL_base": "http://api.weatherapi.com/v1",
-    "api_key": "",
+    "api_key": "972e24a2d3af413290684947230407",
     "csv_file": "weather.csv",
-    "time_delay": 3600 
+    "time_delay": 300
 }
