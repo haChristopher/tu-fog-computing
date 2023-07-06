@@ -2,13 +2,13 @@ import random
 import time
 import json
 
-class SensorDataGenerator:
+class SensorData_1:
     def __init__(self):
         # Define the ranges for random values
-        self.temperature_range = (10.0, 30.0)
-        self.pressure_range = (1000.0, 1100.0)
-        self.humidity_range = (40, 60)
-        self.wind_speed_range = (10.0, 100.0)
+        self.temperature_range = (20.0, 26.0)
+        self.pressure_range = (1000.0, 1034.0)
+        self.humidity_range = (50, 54)
+        self.wind_speed_range = (17.0, 38.0)
         self.weather_naming_options = ['Partly cloudy', 'Sunny', 'Rainy', 'Light rain', 'Cloudy']
         self.cities = ['Berlin', 'Hamburg', 'Munich']
 
@@ -21,10 +21,10 @@ class SensorDataGenerator:
         wind_speed = round(random.uniform(*self.wind_speed_range), 1)
         weather_naming = random.choice(self.weather_naming_options)
         timestamp_request = time_measurement + random.randint(1, 10)
-        city = random.choice(self.cities)
+        # city = random.choice(self.cities)
 
         sensor_entry = {
-            'city': city,
+            'city': self.cities[0],
             'country': 'Germany',
             'time_of_measurement': time_measurement,
             'temperature': temperature,
@@ -34,12 +34,11 @@ class SensorDataGenerator:
             'weather_naming': weather_naming,
             'timestamp_request': timestamp_request
         }
-
         return sensor_entry
 
 
 # Example usage:
 if __name__ == '__main__':
-    sensor_generator = SensorDataGenerator(time_interval=2)
+    sensor_generator = SensorData_1()
     sensor_data = sensor_generator.generate_sensor_data()
     print(json.dumps(sensor_data, indent=4))

@@ -54,8 +54,12 @@ def create_app(test_config=None):
                 data = request.get_json()
 
                 # Define the required fields
-                required_fields = ['lat', 'lon', 'timezone', 'sunrise_unix', 'sunset_unix', 'temp', 'pressure',
-                                   'humidity', 'wind_speed', 'weather_naming', 'timestamp']
+
+                required_fields = ['city','country','time_of_measurement','temperature','pressure','humidity','wind_speed',
+                                    'weather_naming','timestamp_request']
+
+
+                
 
                 # Create a dictionary from the JSON data
                 doc = {field: data[field] for field in required_fields}
@@ -66,7 +70,7 @@ def create_app(test_config=None):
 
             
                 # send data to MongoDB
-                collection = db['weather']
+                collection = db['weather_v4']
                 if collection.insert_one(doc).acknowledged:
                     return jsonify({'message': 'success'}), 201
                 else:
@@ -94,7 +98,7 @@ def create_app(test_config=None):
                 return jsonify(error_message), 400
             else:
                 # find city results in db 
-                collection = db['weather_v3']
+                collection = db['weather_v4']
                 city_data = collection.find({'city': city}).sort('time_of_measurement', -1).limit(10)
                 results = []
                 for data in city_data:
@@ -121,7 +125,7 @@ def create_app(test_config=None):
             return jsonify({'error': 'Version not supported yet'}), 400
         else:
             # find city results in db 
-            collection = db['weather_v3']
+            collection = db['weather_v4']
             # Get distinct city names
             distinct_cities = collection.distinct('city')
 
