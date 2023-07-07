@@ -66,40 +66,56 @@ class Pressure extends Component<{}, State> {
       },
     };
 
-    this.addRandomDataPoint = this.addRandomDataPoint.bind(this);
+    this.addPressureDataPoint = this.addPressureDataPoint.bind(this);
   }
 
   componentDidMount() {
     // Start the interval when the component mounts
-    this.interval = setInterval(this.addRandomDataPoint, 5000);
+    this.interval = setInterval(this.addPressureDataPoint, 5000);
   }
 
   // hier GET data einbauen
-  async getTempDataPoint() {
+  async getPressureDataPoint() {
+    // const berlin = "http://127.0.0.1:5000/api/v2/get_single?city=Berlin";
     const response = await fetch(
       "http://127.0.0.1:5000/api/v2/get_single?city=Berlin"
     );
     const data = await response.json();
-    const data_temperature = data[0].pressure;
-    //console.log(data_temperature);
 
-    const startTime = new Date().getTime();
-    const time = new Date(startTime).toISOString();
-    return { x: time, y: data_temperature };
+    let pressureDataArray = [];
+
+    for (let i = 0; i < data.length; i++) {
+      // unix timestamp
+      let timeMeasurement = data[i].time_of_measurement;
+      // convert to date
+      let date = new Date(timeMeasurement * 1000).toISOString();
+
+      let temp = data[i].pressure;
+      let dataPoint = { x: date, y: temp };
+      // console.log(timeMeasurement, date, `Temperature: ${temp}`);
+
+      // unshift will put it at the beginning of the array (order is then correct)
+      pressureDataArray.unshift(dataPoint);
+    }
+    return pressureDataArray;
   }
 
-  async addRandomDataPoint() {
-    const newDataPoint = await this.getTempDataPoint();
+  async addPressureDataPoint() {
+    const arrayWithDataPoints = await this.getPressureDataPoint();
+    // console.log("Inside the addRandomDataPoint", arrayWithDataPoint);
+    // for (let i = 0; i < arrayWithDataPoints.length; i++) {
+    //   let newDataPoint = arrayWithDataPoints[i];
+
     this.setState((prevState) => {
-      const newData = [...prevState.chartData.datasets[0].data];
-      newData.push(newDataPoint);
+      //const newData = [...prevState.chartData.datasets[0].data];
+      //newData.push(newDataPoint);
 
       return {
         chartData: {
           datasets: [
             {
               ...prevState.chartData.datasets[0],
-              data: newData,
+              data: arrayWithDataPoints,
             },
           ],
         },

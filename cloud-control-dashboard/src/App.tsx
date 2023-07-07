@@ -14,16 +14,10 @@ function App() {
       <div className="container">
         <Temperature />
         <WindSpeed />
-        {/* <Humidity />
-        <Pressure /> */}
+        <Humidity />
+        <Pressure />
       </div>
     </>
-    // <Router>
-    //   <Routes>
-    //     <Route path="/" element={<Home />} />
-    //     <Route path="/home_right" element={<Home_right />} />
-    //   </Routes>
-    // </Router>
   );
 }
 

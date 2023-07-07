@@ -100,25 +100,24 @@ class WindSpeed extends Component<{}, State> {
   async addWindDataPoint() {
     const arrayWithDataPoints = await this.getWindDataPoint();
     // console.log("Inside the addRandomDataPoint", arrayWithDataPoint);
-    for (let i = 0; i < arrayWithDataPoints.length; i++) {
-      let newDataPoint = arrayWithDataPoints[i];
+    // for (let i = 0; i < arrayWithDataPoints.length; i++) {
+    //   let newDataPoint = arrayWithDataPoints[i];
 
-      this.setState((prevState) => {
-        const newData = [...prevState.chartData.datasets[0].data];
-        newData.push(newDataPoint);
+    this.setState((prevState) => {
+      //const newData = [...prevState.chartData.datasets[0].data];
+      //newData.push(newDataPoint);
 
-        return {
-          chartData: {
-            datasets: [
-              {
-                ...prevState.chartData.datasets[0],
-                data: newData,
-              },
-            ],
-          },
-        };
-      });
-    }
+      return {
+        chartData: {
+          datasets: [
+            {
+              ...prevState.chartData.datasets[0],
+              data: arrayWithDataPoints,
+            },
+          ],
+        },
+      };
+    });
   }
 
   render() {
