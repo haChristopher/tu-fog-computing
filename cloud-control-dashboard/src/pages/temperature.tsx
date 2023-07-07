@@ -2,6 +2,7 @@ import { Component } from "react";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-date-fns";
 import "./home.css";
+import Buttons from "./buttons";
 
 import {
   Chart,
@@ -41,6 +42,7 @@ interface ChartData {
 
 interface State {
   chartData: ChartData;
+  city: string;
 }
 
 class Temperature extends Component<{}, State> {
@@ -60,9 +62,11 @@ class Temperature extends Component<{}, State> {
           },
         ],
       },
+      city: "Berlin", // Default city
     };
 
     this.addTempDataPoint = this.addTempDataPoint.bind(this);
+    this.changeCity = this.changeCity.bind(this);
   }
 
   componentDidMount() {
@@ -70,10 +74,9 @@ class Temperature extends Component<{}, State> {
     this.interval = setInterval(this.addTempDataPoint, 1000);
   }
 
-  // hier GET data einbauen
-  async getTempDataPoints() {
+  async getTempDataPoints(city: string) {
     const response = await fetch(
-      "http://127.0.0.1:5000/api/v2/get_single?city=Berlin"
+      `http://127.0.0.1:5000/api/v2/get_single?city=${city}`
     );
     const data = await response.json();
 
@@ -87,7 +90,6 @@ class Temperature extends Component<{}, State> {
 
       let temp = data[i].temperature;
       let dataPoint = { x: date, y: temp };
-      // console.log(timeMeasurement, date, `Temperature: ${temp}`);
 
       // unshift will put it at the beginning of the array (order is then correct)
       temperatureDataArray.unshift(dataPoint);
@@ -96,7 +98,8 @@ class Temperature extends Component<{}, State> {
   }
 
   async addTempDataPoint() {
-    const arrayWithDataPoints = await this.getTempDataPoints();
+    const { city } = this.state;
+    const arrayWithDataPoints = await this.getTempDataPoints(city);
     this.setState((prevState) => {
       return {
         chartData: {
@@ -111,8 +114,12 @@ class Temperature extends Component<{}, State> {
     });
   }
 
+  public changeCity(newCity: string) {
+    this.setState({ city: newCity });
+  }
+
   render() {
-    const { chartData } = this.state;
+    const { chartData, city } = this.state;
 
     const chartOptions = {
       scales: {
@@ -131,9 +138,7 @@ class Temperature extends Component<{}, State> {
     return (
       <div className="temperature">
         <div className="content">
-          {/* <p>Temperature</p> */}
           <div className="graphs">
-            {/* "Line" creates line chart */}
             <Line data={chartData} options={chartOptions} id="chart1" />
           </div>
         </div>
