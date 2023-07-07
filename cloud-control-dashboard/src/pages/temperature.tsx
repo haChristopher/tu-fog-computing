@@ -1,6 +1,4 @@
 import { Component } from "react";
-import { Typography } from "@mui/material";
-import Button from "@mui/material/Button";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-date-fns";
 import "./home.css";
@@ -15,7 +13,6 @@ import {
   LineController,
   LineElement,
 } from "chart.js";
-import { isConstructorDeclaration } from "typescript";
 
 Chart.register(
   LinearScale,
@@ -56,7 +53,7 @@ class Temperature extends Component<{}, State> {
       chartData: {
         datasets: [
           {
-            label: "Data",
+            label: "Temperature",
             data: [],
             fill: false,
             borderColor: "rgba(75, 192, 192, 1)",
@@ -66,46 +63,63 @@ class Temperature extends Component<{}, State> {
       },
     };
 
-    this.addRandomDataPoint = this.addRandomDataPoint.bind(this);
+    this.addTempDataPoint = this.addTempDataPoint.bind(this);
   }
 
   componentDidMount() {
     // Start the interval when the component mounts
-    this.interval = setInterval(this.addRandomDataPoint, 5000);
+    this.interval = setInterval(this.addTempDataPoint, 5000);
   }
 
   // hier GET data einbauen
-  async getTempDataPoint() {
+  async getTempDataPoints() {
+    // const berlin = "http://127.0.0.1:5000/api/v2/get_single?city=Berlin";
     const response = await fetch(
       "http://127.0.0.1:5000/api/v2/get_single?city=Berlin"
     );
     const data = await response.json();
-    const data_temperature = data[0].temperature;
-    //console.log(data_temperature);
 
-    const startTime = new Date().getTime();
-    const time = new Date(startTime).toISOString();
-    return { x: time, y: data_temperature };
+    let temperatureDataArray = [];
+
+    for (let i = 0; i < data.length; i++) {
+      // unix timestamp
+      let timeMeasurement = data[i].time_of_measurement;
+      // convert to date
+      let date = new Date(timeMeasurement * 1000).toISOString();
+
+      let temp = data[i].temperature;
+      let dataPoint = { x: date, y: temp };
+      // console.log(timeMeasurement, date, `Temperature: ${temp}`);
+
+      // unshift will put it at the beginning of the array (order is then correct)
+      temperatureDataArray.unshift(dataPoint);
+    }
+    return temperatureDataArray;
   }
 
-  async addRandomDataPoint() {
-    const newDataPoint = await this.getTempDataPoint();
+  async addTempDataPoint() {
+    const arrayWithDataPoints = await this.getTempDataPoints();
+    // console.log("Inside the addRandomDataPoint", arrayWithDataPoint);
+    // for (let i = 0; i < arrayWithDataPoints.length; i++) {
+    //   let newDataPoint = arrayWithDataPoints[i];
+
     this.setState((prevState) => {
-      const newData = [...prevState.chartData.datasets[0].data];
-      newData.push(newDataPoint);
+      //const newData = [...prevState.chartData.datasets[0].data];
+      //newData.push(newDataPoint);
 
       return {
         chartData: {
           datasets: [
             {
               ...prevState.chartData.datasets[0],
-              data: newData,
+              data: arrayWithDataPoints,
             },
           ],
         },
       };
     });
   }
+  
 
   render() {
     const { chartData } = this.state;
@@ -127,8 +141,9 @@ class Temperature extends Component<{}, State> {
     return (
       <div className="temperature">
         <div className="content">
-          <p>Temperature</p>
+          {/* <p>Temperature</p> */}
           <div className="graphs">
+            {/* "Line" creates line chart */}
             <Line data={chartData} options={chartOptions} id="chart1" />
           </div>
         </div>
