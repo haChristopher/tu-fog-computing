@@ -71,7 +71,7 @@ class WindSpeed extends Component<{}, State> {
 
   componentDidMount() {
     // Start the interval when the component mounts
-    this.interval = setInterval(this.addWindDataPoint, 5000);
+    this.interval = setInterval(this.addWindDataPoint, 1000);
   }
 
   // hier GET data einbauen

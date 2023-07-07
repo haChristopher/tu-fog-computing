@@ -45,7 +45,6 @@ interface State {
 
 class Temperature extends Component<{}, State> {
   private interval: NodeJS.Timeout | null = null;
-
   constructor(props: any) {
     super(props);
 
@@ -68,12 +67,11 @@ class Temperature extends Component<{}, State> {
 
   componentDidMount() {
     // Start the interval when the component mounts
-    this.interval = setInterval(this.addTempDataPoint, 5000);
+    this.interval = setInterval(this.addTempDataPoint, 1000);
   }
 
   // hier GET data einbauen
   async getTempDataPoints() {
-    // const berlin = "http://127.0.0.1:5000/api/v2/get_single?city=Berlin";
     const response = await fetch(
       "http://127.0.0.1:5000/api/v2/get_single?city=Berlin"
     );
@@ -99,14 +97,7 @@ class Temperature extends Component<{}, State> {
 
   async addTempDataPoint() {
     const arrayWithDataPoints = await this.getTempDataPoints();
-    // console.log("Inside the addRandomDataPoint", arrayWithDataPoint);
-    // for (let i = 0; i < arrayWithDataPoints.length; i++) {
-    //   let newDataPoint = arrayWithDataPoints[i];
-
     this.setState((prevState) => {
-      //const newData = [...prevState.chartData.datasets[0].data];
-      //newData.push(newDataPoint);
-
       return {
         chartData: {
           datasets: [
@@ -119,7 +110,6 @@ class Temperature extends Component<{}, State> {
       };
     });
   }
-  
 
   render() {
     const { chartData } = this.state;
