@@ -27,11 +27,16 @@
 .buttons {
   display: flex;
   flex-direction: row;
-  column-gap: 20px;
+  column-gap: 30px;
   justify-content: center;
   align-items: center;
   padding-bottom: 20px;
-  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
+.button:active {
+  background-color: rgb(197, 14, 31);
+  color: black;
 }
 
 .graphs {
@@ -40,5 +45,5 @@
   flex-direction: row;
   column-gap: 30px;
   justify-content: center;
-  height: 285px;
+  height: 275px;
 }

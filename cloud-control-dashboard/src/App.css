@@ -15,7 +15,7 @@
 }
 
 .container {
-  margin-top: 50px;
+  margin-top: 35px;
   display: grid; /* Use CSS grid layout */
   grid-template-columns: 1fr 1fr; /* Divide the container into two columns */
   grid-gap: 10px; /* Add gap between the divs */

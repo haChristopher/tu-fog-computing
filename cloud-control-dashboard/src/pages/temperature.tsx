@@ -57,7 +57,7 @@ class Temperature extends Component<{}, State> {
             label: "Temperature",
             data: [],
             fill: false,
-            borderColor: "rgba(75, 192, 192, 1)",
+            borderColor: "rgba(0, 0, 0, 1)",
             borderWidth: 2,
           },
         ],
@@ -142,18 +142,48 @@ class Temperature extends Component<{}, State> {
             <Button
               variant="outlined"
               onClick={() => this.changeCity("Berlin")}
+              sx={{
+                bgcolor:
+                  this.state.city === "Berlin" ? "rgb(197, 14, 31)" : "white",
+                color: this.state.city === "Berlin" ? "white" : "text.primary",
+                ":hover": {
+                  bgcolor: "rgb(197, 14, 31)",
+                  color: "white",
+                },
+                borderColor: "text.primary",
+              }}
             >
               Berlin
             </Button>
             <Button
               variant="outlined"
               onClick={() => this.changeCity("Hamburg")}
+              sx={{
+                bgcolor:
+                  this.state.city === "Hamburg" ? "rgb(197, 14, 31)" : "white",
+                color: this.state.city === "Hamburg" ? "white" : "text.primary",
+                ":hover": {
+                  bgcolor: "rgb(197, 14, 31)",
+                  color: "white",
+                },
+                borderColor: "text.primary",
+              }}
             >
               Hamburg
             </Button>
             <Button
               variant="outlined"
               onClick={() => this.changeCity("Munich")}
+              sx={{
+                bgcolor:
+                  this.state.city === "Munich" ? "rgb(197, 14, 31)" : "white",
+                color: this.state.city === "Munich" ? "white" : "text.primary",
+                ":hover": {
+                  bgcolor: "rgb(197, 14, 31)",
+                  color: "white",
+                },
+                borderColor: "text.primary",
+              }}
             >
               München
             </Button>
