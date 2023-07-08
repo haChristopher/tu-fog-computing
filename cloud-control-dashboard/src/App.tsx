@@ -4,13 +4,13 @@ import WindSpeed from "./pages/wind_speed";
 import Temperature from "./pages/temperature";
 import Humidity from "./pages/humidity";
 import Pressure from "./pages/pressure";
-import Buttons from "./pages/buttons";
+import Header from "./pages/header";
 import "./App.css";
 
 function App() {
   return (
     <>
-      <Buttons />
+      <Header />
       <div className="container">
         <Temperature />
         <WindSpeed />

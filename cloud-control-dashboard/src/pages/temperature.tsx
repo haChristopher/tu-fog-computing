@@ -2,7 +2,7 @@ import { Component } from "react";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-date-fns";
 import "./home.css";
-import Buttons from "./buttons";
+import { Button } from "@mui/material";
 
 import {
   Chart,
@@ -138,6 +138,26 @@ class Temperature extends Component<{}, State> {
     return (
       <div className="temperature">
         <div className="content">
+          <div className="buttons">
+            <Button
+              variant="outlined"
+              onClick={() => this.changeCity("Berlin")}
+            >
+              Berlin
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={() => this.changeCity("Hamburg")}
+            >
+              Hamburg
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={() => this.changeCity("Munich")}
+            >
+              München
+            </Button>
+          </div>
           <div className="graphs">
             <Line data={chartData} options={chartOptions} id="chart1" />
           </div>
