@@ -1,14 +1,12 @@
 .header {
-  margin-top: 50;
-  display: grid; /* Use CSS grid layout */
-  grid-template-columns: 1fr 1fr; /* Divide the container into two columns */
-  grid-gap: 10px; /* Add gap between the divs */
-  height: 150px;
-}
-
-.text {
-  flex: 0.8;
-  margin-left: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  height: 130px;
+  background-color: rgb(197, 14, 31);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  margin-bottom: -25px;
 }
 
 .buttons {
@@ -21,4 +19,11 @@
   display: grid; /* Use CSS grid layout */
   grid-template-columns: 1fr 1fr; /* Divide the container into two columns */
   grid-gap: 10px; /* Add gap between the divs */
+}
+
+img {
+  width: auto;
+  height: 100px;
+  margin-left: -180px;
+  margin-right: 50px;
 }

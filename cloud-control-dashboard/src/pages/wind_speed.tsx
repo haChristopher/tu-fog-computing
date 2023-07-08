@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-date-fns";
-import "./home.css";
+import "./chart.css";
 
 import {
   Chart,
