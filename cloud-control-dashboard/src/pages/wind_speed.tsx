@@ -44,6 +44,7 @@ interface ChartData {
 
 interface State {
   chartData: ChartData;
+  city: string;
 }
 
 class WindSpeed extends Component<{}, State> {
@@ -64,9 +65,11 @@ class WindSpeed extends Component<{}, State> {
           },
         ],
       },
+      city: "Berlin", // Default city
     };
 
     this.addWindDataPoint = this.addWindDataPoint.bind(this);
+    this.changeCity = this.changeCity.bind(this);
   }
 
   componentDidMount() {
@@ -75,9 +78,9 @@ class WindSpeed extends Component<{}, State> {
   }
 
   // hier GET data einbauen
-  async getWindDataPoint() {
+  async getWindDataPoint(city: string) {
     const response = await fetch(
-      "http://127.0.0.1:5000/api/v2/get_single?city=Berlin"
+      `http://127.0.0.1:5000/api/v2/get_single?city=${city}`
     );
     const data = await response.json();
     let windDataArray = [];
@@ -98,7 +101,8 @@ class WindSpeed extends Component<{}, State> {
   }
 
   async addWindDataPoint() {
-    const arrayWithDataPoints = await this.getWindDataPoint();
+    const { city } = this.state;
+    const arrayWithDataPoints = await this.getWindDataPoint(city);
     // console.log("Inside the addRandomDataPoint", arrayWithDataPoint);
     // for (let i = 0; i < arrayWithDataPoints.length; i++) {
     //   let newDataPoint = arrayWithDataPoints[i];
@@ -120,6 +124,10 @@ class WindSpeed extends Component<{}, State> {
     });
   }
 
+  changeCity(newCity: string) {
+    this.setState({ city: newCity });
+  }
+
   render() {
     const { chartData } = this.state;
 
@@ -138,9 +146,28 @@ class WindSpeed extends Component<{}, State> {
     };
 
     return (
-      <div className="wind_speed">
+      <div className="wind-speed">
         <div className="content">
-          {/* <p>Wind speed</p> */}
+          <div className="buttons">
+            <Button
+              variant="outlined"
+              onClick={() => this.changeCity("Berlin")}
+            >
+              Berlin
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={() => this.changeCity("Hamburg")}
+            >
+              Hamburg
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={() => this.changeCity("Munich")}
+            >
+              München
+            </Button>
+          </div>
           <div className="graphs">
             <Line data={chartData} options={chartOptions} id="chart1" />
           </div>

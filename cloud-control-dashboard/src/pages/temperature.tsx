@@ -114,12 +114,12 @@ class Temperature extends Component<{}, State> {
     });
   }
 
-  public changeCity(newCity: string) {
+  changeCity(newCity: string) {
     this.setState({ city: newCity });
   }
 
   render() {
-    const { chartData, city } = this.state;
+    const { chartData } = this.state;
 
     const chartOptions = {
       scales: {
