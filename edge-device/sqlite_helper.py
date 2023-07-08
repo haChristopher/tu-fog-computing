@@ -56,6 +56,7 @@ def get_next_unsend_message(conn: sqlite3.Connection):
             return None, None
     except sqlite3.Error as e:
         log.error(e)
+        return None, None
 
 def increase_send_attempt(conn: sqlite3.Connection, id: int):
     try:
