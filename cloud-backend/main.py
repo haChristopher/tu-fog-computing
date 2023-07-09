@@ -31,11 +31,9 @@ def create_app(test_config=None):
     )   
     app.register_blueprint(swaggerui_blueprint)
 
-
-
     # allows the react App (dashbors to fetch data from the flask app)
-    cors = CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
-    
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
+
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
