@@ -11,6 +11,7 @@ This README.md file will provide detailed insights into the architecture of our 
 </video>
 
 ![Video Preview](documentation/figures/Preview_video.jpeg)
+[![Watch the demo](documentation/figures/Preview_video.jpeg)](documentation/demo_video.mp4)
 
 # Documentation & License
 
