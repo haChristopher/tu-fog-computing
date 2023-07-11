@@ -14,9 +14,11 @@ This README.md file will provide detailed insights into the architecture of our 
 
 We used sensors to collect the weather data. We had two options for sourcing the data: (i) simulating the environmental data within a specific range or (ii) parsing live data from the weather API provided by www.weatherapi.com.
 
+<p align="center">
 | <img src="documentation/figures/Sensors.png" alt="sensors" width="90%"> |
 |:--:|
 | *Data generation* |
+</p>
 
 # Reliable messaging
 
