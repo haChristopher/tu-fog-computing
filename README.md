@@ -6,9 +6,11 @@ This README.md file will provide detailed insights into the architecture of our 
 
 # Architecture
 
+<p align="center">
 | <img src="documentation/figures/arch.drawio.png" alt="architecture" width="90%"> |
 |:--:|
 | *Architecture* |
+</p>
 
 # Data generation
 
