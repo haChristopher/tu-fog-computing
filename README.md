@@ -6,9 +6,9 @@ This README.md file will provide detailed insights into the architecture of our 
 
 # Architecture
 
-| <p align="center">
+<p align="center">
 <img src="documentation/figures/arch.drawio.png" alt="architecture" width="70%">
-</p> |
+</p>
 
 # Data generation
 
@@ -25,6 +25,13 @@ As our solution operates in a distributed fog environment we need to consider th
 <p align="center">
 <img src="documentation/figures/reliable.drawio.png" alt="reliable messaging" width="70%">
 </p>
+
+The following picture shows a sample from the SQLite DB on one of the weather stations storing messages which were not able to be sent. Every entry has a unique id, a timestamp, a flag showing if it was sent or not, the number of sending attempts and then actual message body.
+
+<p align="center">
+<img src="documentation/figures/messages_db.png" alt="sensors" width="70%">
+</p>
+
 
 # Docker Compose for running Locally
 
