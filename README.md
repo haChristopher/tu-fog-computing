@@ -14,7 +14,7 @@ This README.md file will provide detailed insights into the architecture of our 
 
 # Documentation & License
 
-[Click here to view the documenation](./document.pdf)
+[Click here to view the documenation](./documentation/Fog-Computing-Report.pdf)
 
 [Click here to view the license](./LICENSE)
 
