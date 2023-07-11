@@ -7,7 +7,7 @@ This README.md file will provide detailed insights into the architecture of our 
 # Architecture
 
 <p align="center">
-<img src="documentation/figures/arch.drawio.png" alt="architecture" width="80%">
+<img src="documentation/figures/arch.drawio.png" alt="architecture" width="70%">
 </p>
 
 # Data generation
@@ -15,18 +15,17 @@ This README.md file will provide detailed insights into the architecture of our 
 We used sensors to collect the weather data. We had two options for sourcing the data: (i) simulating the environmental data within a specific range or (ii) parsing live data from the weather API provided by www.weatherapi.com.
 
 <p align="center">
-<img src="documentation/figures/Sensors.png" alt="sensors" width="90%">
-
+<img src="documentation/figures/Sensors.png" alt="sensors" width="70%">
 Data generation
-</p>
+
 
 # Reliable messaging
 
 As our solution operates in a distributed fog environment we need to consider that outages on multiple edge devices or server nodes could occur. To address this challenge we implemented several mechanisms to counteract such failures. This mechanisms ensure: (i) reading sensor data is never blocked by connection issues, (ii) failed data is persisted to disk and gets retried and (iii) if the Station fails after a restart the persisted data gets resend. For more information about the implemented mechanisms see the doc file.
 
-| <img src="documentation/figures/reliable.drawio.png" alt="reliable messaging" width="90%"> |
-|:--:|
-| *Reliable messaging* |
+<p align="center">
+<img src="documentation/figures/reliable.drawio.png" alt="reliable messaging" width="70%">
+Data generation
 
 # Docker Compose for running Locally
 
