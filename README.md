@@ -8,10 +8,10 @@ This README.md file will provide detailed insights into the architecture of our 
 
 <p align="center">
 <img src="documentation/figures/arch.drawio.png" alt="architecture" width="70%">
-  
-  <em align="center">image_caption</em>
 </p>
-
+<p align="center">
+  <em>image_caption</em>
+</p>
 # Data generation
 
 We used sensors to collect the weather data. We had two options for sourcing the data: (i) simulating the environmental data within a specific range or (ii) parsing live data from the weather API provided by www.weatherapi.com.
