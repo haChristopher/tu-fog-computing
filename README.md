@@ -6,7 +6,7 @@ This README.md file will provide detailed insights into the architecture of our 
 
 # Architecture
 
-| <img src="documentation/figures/arch.drawio.png" alt="architecture" width="80%"> |
+| <img src="documentation/figures/arch.drawio.png" alt="architecture" width="90%"> |
 |:--:|
 | *Architecture* |
 
