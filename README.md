@@ -8,6 +8,10 @@ This README.md file will provide detailed insights into the architecture of our 
 
 [hier kommt das Video]
 
+# Documentation
+
+...
+
 # Architecture
 
 <p align="center">
