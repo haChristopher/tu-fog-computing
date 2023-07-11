@@ -8,7 +8,7 @@ This README.md file will provide detailed insights into the architecture of our 
 
 <p align="center">
 <img src="documentation/figures/arch.drawio.png" alt="architecture" width="70%">
-<em>image_caption</em>
+  <em>image_caption</em>
 </p>
 
 # Data generation
