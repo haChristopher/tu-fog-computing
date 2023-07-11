@@ -5,14 +5,18 @@ To efficiently capture and process the data, we opted for the Fog Computing appr
 This README.md file will provide detailed insights into the architecture of our application, the implementation of the simulated sensors, and the algorithms employed for data processing. 
 
 # Architecture
-<img src="documentation/figures/arch.drawio.png" alt="architecture" width="80%">
+
+| <img src="documentation/figures/arch.drawio.png" alt="architecture" width="80%"> |
+|:--:|
+| *Architecture* |
 
 # Data generation
+
 We used sensors to collect the weather data. We had two options for sourcing the data: (i) simulating the environmental data within a specific range or (ii) parsing live data from the weather API provided by www.weatherapi.com.
 
 | <img src="documentation/figures/Sensors.png" alt="sensors" width="80%"> |
 |:--:|
-| *Architecture* |
+| *Data generation* |
 
 # Docker Compose for running Locally
 
