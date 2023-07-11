@@ -10,14 +10,18 @@ This README.md file will provide detailed insights into the architecture of our 
 <img src="documentation/figures/arch.drawio.png" alt="architecture" width="70%">
 </p>
 <p align="center">
-  <em>image_caption</em>
+  <em>Architecture</em>
 </p>
+
 # Data generation
 
 We used sensors to collect the weather data. We had two options for sourcing the data: (i) simulating the environmental data within a specific range or (ii) parsing live data from the weather API provided by www.weatherapi.com.
 
 <p align="center">
 <img src="documentation/figures/Sensors.png" alt="sensors" width="70%">
+</p>
+<p align="center">
+  <em>Sensors</em>
 </p>
 
 # Reliable messaging
@@ -27,11 +31,17 @@ As our solution operates in a distributed fog environment we need to consider th
 <p align="center">
 <img src="documentation/figures/reliable.drawio.png" alt="reliable messaging" width="70%">
 </p>
+<p align="center">
+  <em>Reliable messaging</em>
+</p>
 
 The following picture shows a sample from the SQLite DB on one of the weather stations storing messages which were not able to be sent. Every entry has a unique id, a timestamp, a flag showing if it was sent or not, the number of sending attempts and then actual message body.
 
 <p align="center">
-<img src="documentation/figures/messages_db.png" alt="sensors" width="90%">
+<img src="documentation/figures/messages_db.png" alt="SQLite sample" width="90%">
+</p>
+<p align="center">
+  <em>SQLite sample</em>
 </p>
 
 
