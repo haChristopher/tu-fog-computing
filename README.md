@@ -8,6 +8,19 @@ This README.md file will provide detailed insights into the architecture of our 
 
 [hier kommt das Video]
 
+<video width="320" height="240" controls>
+  <source src="./videos/video.mp4" type="video/mp4">
+</video>
+
+# Documentation & License
+
+[Click here to view the documenation](./document.pdf)
+
+[Click here to view the license](./LICENSE)
+
+
+
+
 # Architecture
 
 <p align="center">
