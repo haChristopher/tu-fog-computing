@@ -48,6 +48,7 @@ The following picture shows a sample from the SQLite DB on one of the weather st
 
 Our Backend consists of a weather data API build with the Flask framework and MongoDB for data storage. The Flask API supports three major endpoints: (i) submit weather data, (ii) retrieve data for a single city and (iii) obtain data for all cities. The backend code also includes error handling, such as returning appropriate HTTP status codes and error messages for scenarios like invalid requests, missing data, data not found and more. To enhance the usability and documentation of our API, we have integrated Swagger UI.
 
+## Get single
 <p align="center">
 <img src="documentation/figures/get_single.png" alt="get_single" width="90%">
 </p>
@@ -55,6 +56,7 @@ Our Backend consists of a weather data API build with the Flask framework and Mo
   <em>GET weather data of single city</em>
 </p>
 
+## Get all
 <p align="center">
 <img src="documentation/figures/get_all.png" alt="get_all" width="90%">
 </p>
@@ -62,6 +64,7 @@ Our Backend consists of a weather data API build with the Flask framework and Mo
   <em>GET weather data of all cities</em>
 </p>
 
+## Post data
 <p align="center">
 <img src="documentation/figures/submit.png" alt="submit" width="90%">
 </p>
