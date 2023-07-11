@@ -74,7 +74,7 @@ Our Backend consists of a weather data API build with the Flask framework and Mo
 
 # Dashboard
 
-The application is provided with a dashboard. It visualizes the collected weather data for four variables (temperature, pressure, humidity, and wind speed) and three cities (Hamburg, Berlin, and Munich) in the form of interactive diagrams.
+The application is provided with a dashboard. It visualizes the collected weather data for four variables (temperature, pressure, humidity, and wind speed) in three different cities (Hamburg, Berlin, and Munich) in the form of interactive diagrams.
 
 <p align="center">
 <img src="documentation/figures/Dashboard.png" alt="dashboard" width="90%">
