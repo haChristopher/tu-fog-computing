@@ -29,7 +29,7 @@ As our solution operates in a distributed fog environment we need to consider th
 The following picture shows a sample from the SQLite DB on one of the weather stations storing messages which were not able to be sent. Every entry has a unique id, a timestamp, a flag showing if it was sent or not, the number of sending attempts and then actual message body.
 
 <p align="center">
-<img src="documentation/figures/messages_db.png" alt="sensors" width="80%">
+<img src="documentation/figures/messages_db.png" alt="sensors" width="90%">
 </p>
 
 
