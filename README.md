@@ -9,7 +9,7 @@ This README.md file will provide detailed insights into the architecture of our 
 [hier kommt das Video]
 
 <video width="320" height="240" controls>
-  <source src="./documentation/demo/demo_video.mov" type="video/mp4">
+  <source src="documentation/demo/demo_video.mov" type="video/mp4">
 </video>
 
 # Documentation & License
