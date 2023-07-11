@@ -16,8 +16,7 @@ We used sensors to collect the weather data. We had two options for sourcing the
 
 <p align="center">
 <img src="documentation/figures/Sensors.png" alt="sensors" width="70%">
-Data generation
-
+</p>
 
 # Reliable messaging
 
@@ -25,7 +24,7 @@ As our solution operates in a distributed fog environment we need to consider th
 
 <p align="center">
 <img src="documentation/figures/reliable.drawio.png" alt="reliable messaging" width="70%">
-Data generation
+</p>
 
 # Docker Compose for running Locally
 
