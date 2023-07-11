@@ -10,7 +10,8 @@ This README.md file will provide detailed insights into the architecture of our 
 
 # Documentation
 
-...
+[Click here to view the document](./document.pdf)
+
 
 # Architecture
 
