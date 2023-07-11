@@ -108,7 +108,10 @@ def handle_send_message(socket, message) -> bool:
         log.warning("Message could not be send, storing in DB")
         return False
     except NoAckException as e:
-        log.warning("No ACK received, storing in D")
+        log.warning("No ACK received, storing in DB")
+        return False
+    except Exception as e:
+        log.error(e)
         return False
 
 
@@ -120,6 +123,8 @@ def db_sender():
         retries = 0
 
         socket = get_socket(URL_CLIENT)
+
+        # After a certain amount of retries, the connection will be recreated
         while retries < REQUEST_RETRIES:
             id, message = db_helper.get_next_unsend_message(db_conn)
             log.info(f"Resending message with id {id}")

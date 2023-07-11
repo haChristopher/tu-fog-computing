@@ -89,27 +89,41 @@ The application is provided with a dashboard. It visualizes the collected weathe
 
 
 
+# Running the application
+
+The application conists of four components:
+- cloud-server
+- cloud-backend
+- cloud-dashboard
+- weather-stations
 
 
+### Running Locally using Docker Compose
 
-
-
-
-
-# Docker Compose for running Locally
-
-All 3 components can be run locally using docker-compose
+All 4 components can be run locally using docker-compose
 ```
 docker-compose up
 ```
 
-After changes you need to rebuild
+The first time this might take a while as it first needs to build the docker images. But once it is running you should be able to access:
+
+- Dashboard: http://localhost:3000
+- Backend: http://localhost:5000/api/docs
+
+And you should be able to see incoming data from the 3 edge clients (if the edge clients are set to send realistic data you need an api key from http://api.weatherapi.com).
+
+
+### Deplyoment on GCE
+
+For a proper deployment we used to VMs, one running the dashboard and the second one running the backend and the server. On both VMs you can use docker compose to start the components.
+
 ```
-docker-compose build
+docker-compose up -d cloud-control-dashboard
+docker-compose up -d cloud-backend cloud-server
 ```
 
-Running a single service:
+The dashboard is then available at http://VM_EXTERNAL_IP:3000 and the backend at http://VM_EXTERNAL_IP:5000/api/docs
 
-```
-docker-compose up cloud-server
-```
+For running in the cloud there is also a mongdoDB required. We used a managed MongoDB Atlas instance. The connection string can be configured in the backend using the environment variable `MONGO_END`, `MONGO_USR`, `MONGO_PWD`.
+
+The edge clients can be run as before using docker-compose using the environment variable `SERVER_ADDRESS` to point to the cloud-server. On default docker-compose spins up three edge clients for Berlin, Hamburg and Munich.

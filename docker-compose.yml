@@ -1,4 +1,4 @@
-# Spins up all 3 components locally:
+# Spins up all 4 components locally:
 # - Edge device
 # - Cloud server
 # - Dashboard
@@ -60,6 +60,16 @@ services:
       - "5000:5000"
     networks:
       - my-shared-network
+
+  cloud-dashboard:
+    image: cloud-dashboard
+    build:
+      context: ./cloud-control-dashboard
+      dockerfile: Dockerfile.dashboard
+    ports:
+      - "3000:3000"
+    networks:
+      - my-shared-network 
 
 networks:
   my-shared-network: {}

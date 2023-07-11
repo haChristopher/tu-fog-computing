@@ -44,43 +44,48 @@ def post_to_flask(json_data):
 """Receive messages from edge device and send to flask"""
 def msg_receiver():
     count = 0
-    log.debug("Server is starting ...")
-
-    conn = db_helper.create_connection(DB_NAME) 
-
-    context = zmq.Context()
-    socket = context.socket(zmq.REP)
-    socket.bind(URL_CLIENT)
-
-    log.debug("Waiting for messages ...")
     while True:
-        # receive sensor data
-        data = socket.recv_pyobj()
-        # log.info("Received sensor data from client: % s" % data)
+        log.debug("Server is starting ...")
 
-        log.info(f"Received Messages: {data}")
-        city = data["city"]
-        
-        # Get amd parse messages from DB
-        rows = db_helper.get_all_information_for_city(conn, city)
-        ids = [row[0] for row in rows]
-        messages = [json.loads(row[1]) for row in rows]
+        conn = db_helper.create_connection(DB_NAME) 
 
-        response_data = merge_list_of_information(messages)
-        response_obj = {
-            "server_id": SERVER_ID,
-            "ack": True,
-            "data": response_data
-        }
-        socket.send_pyobj(response_obj)
-        db_helper.delete_messages_by_ids(conn, ids)
+        context = zmq.Context()
+        socket = context.socket(zmq.REP)
+        socket.bind(URL_CLIENT)
 
-        count += 1
-        log.info(f"Received Messages: {count}")
-        # socket.send_pyobj(response_obj)
-        
-        # send sensor data to flask
-        # post_to_flask(json.dumps(data))
+        try:
+            log.debug("Waiting for messages ...")
+            while True:
+                # receive sensor data
+                data = socket.recv_pyobj()
+                # log.info("Received sensor data from client: % s" % data)
+
+                log.info(f"Received Messages: {data}")
+                city = data["city"]
+                
+                # Get amd parse messages from DB
+                rows = db_helper.get_all_information_for_city(conn, city)
+                ids = [row[0] for row in rows]
+                messages = [json.loads(row[1]) for row in rows]
+
+                response_data = merge_list_of_information(messages)
+                response_obj = {
+                    "server_id": SERVER_ID,
+                    "ack": True,
+                    "data": response_data
+                }
+                socket.send_pyobj(response_obj)
+                db_helper.delete_messages_by_ids(conn, ids)
+
+                count += 1
+                log.info(f"Received Messages: {count}")
+                
+                # send sensor data to flask
+                post_to_flask(json.dumps(data))
+        except Exception as e:
+            # If any exception occurs we restart the socket
+            log.error(e)
+            socket.close()
 
     
 

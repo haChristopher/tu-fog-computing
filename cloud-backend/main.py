@@ -8,10 +8,14 @@ import certifi
 from flask_swagger_ui import get_swaggerui_blueprint
 from flask_cors import CORS
 
-url = f"mongodb+srv://{config.db_user}:{config.db_}@fog.m9hlcut.mongodb.net/?retryWrites=true&w=majority"
+# Read environment variables
+MONGO_END = os.getenv("MONGO_END", default="fog.m9hlcut.mongodb.net")
+MONGO_USR = os.getenv("MONGO_USR", default=config.db_user)
+MONGO_PWD = os.getenv("MONGO_PWD", default=config.db_)
+
+url = f"mongodb+srv://{MONGO_USR}:{MONGO_PWD}@{MONGO_END}/?retryWrites=true&w=majority"
 cluster: MongoClient = pymongo.MongoClient(url, tlsCAFile=certifi.where(), connect=False)
 db = cluster['weather-storage'] 
-
 
 # Creates the application and loads configuration from config.py or environment variables
 # This is good for using docker
