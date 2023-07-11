@@ -6,6 +6,11 @@ This README.md file will provide detailed insights into the architecture of our 
 
 # Demo Video
 
+Uploading fog_vid.mp4…
+
+
+
+
 [hier kommt das Video]
 
 # Architecture
