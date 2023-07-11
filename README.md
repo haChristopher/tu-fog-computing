@@ -12,7 +12,7 @@ This README.md file will provide detailed insights into the architecture of our 
   <source src="documentation/demo/demo_video.mov" type="video/mp4">
 </video>
 
-![](documentation/demo/demo_video.mov)
+![Video Preview](documentation/demo/demo_video_preview.gif)
 
 # Documentation & License
 
