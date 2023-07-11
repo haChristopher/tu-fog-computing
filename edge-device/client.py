@@ -122,6 +122,7 @@ def db_sender():
         socket = get_socket(URL_CLIENT)
         while retries < REQUEST_RETRIES:
             id, message = db_helper.get_next_unsend_message(db_conn)
+            log.info(f"Resending message with id {id}")
             if id is not None:
                 message = json.loads(message)
                 success = handle_send_message(socket, message)
@@ -129,6 +130,7 @@ def db_sender():
                 if success:
                     db_helper.mark_message_as_send(db_conn, id)
                     retries = 0
+                    w_log.debug("Message resent successfully")
                 else:
                     db_helper.increase_send_attempt(db_conn, id)
                     retries += 1
@@ -150,6 +152,7 @@ def sender(queue):
             success = handle_send_message(socket, message)
             if success:
                 retries = 0
+                w_log.debug("Message sent successfully")
             else:
                 data_json = json.dumps(message)
                 db_helper.write_unsend_message(db_conn, data_json)
@@ -160,7 +163,7 @@ def sender(queue):
 
 
 def data_generator_runner(sensor_generator, queue):
-    for i in range(50):
+    while True:
         sensor_data = sensor_generator.generate_sensor_data()
         queue.put(sensor_data)
         time.sleep(0.5)

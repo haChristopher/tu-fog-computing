@@ -16,6 +16,28 @@ services:
       - CITY=Berlin
     networks:
       - my-shared-network
+    
+  edge-client-2:
+    image: edge-client
+    build:
+      context: ./edge-device
+      dockerfile: Dockerfile.edge
+    environment:
+      - SERVER_ADDRESS=tcp://cloud-server:5555
+      - CITY=Hamburg
+    networks:
+      - my-shared-network
+
+  edge-client-3:
+    image: edge-client
+    build:
+      context: ./edge-device
+      dockerfile: Dockerfile.edge
+    environment:
+      - SERVER_ADDRESS=tcp://cloud-server:5555
+      - CITY=Munich
+    networks:
+      - my-shared-network
 
   cloud-server:
     image: cloud-server
@@ -26,6 +48,8 @@ services:
       - SERVER_ENDPOINT=http://cloud-backend:5000
     networks:
       - my-shared-network
+    ports:
+      - "5555:5555"
 
   cloud-backend:
     image: cloud-backend

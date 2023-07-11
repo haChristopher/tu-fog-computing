@@ -7,9 +7,11 @@ import requests
 # Read the data from the config file
 with open("config.json") as file:
     config_data = json.load(file)
+
 api_key = config_data['api_key']
 simulate_data = config_data['simulate_data']
 generate_data = simulate_data.lower() == 'true'
+generate_data = False
 
 class SensorData_3:
     def __init__(self):
@@ -59,7 +61,8 @@ class SensorData_3:
                     resp_obj = {
                         "city":city,
                         "country":result["location"]["country"],
-                        "time_of_measurement":result["location"]["localtime_epoch"],
+                        #"time_of_measurement":result["location"]["localtime_epoch"],
+                        "time_of_measurement":int(time.time()),
                         "temperature":result["current"]["temp_c"],
                         "pressure":result["current"]["pressure_mb"],
                         "humidity":result["current"]["humidity"],
