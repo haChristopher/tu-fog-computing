@@ -8,9 +8,13 @@ This README.md file will provide detailed insights into the architecture of our 
 
 [hier kommt das Video]
 
-# Documentation
+# Documentation & License
 
-[Click here to view the document](./document.pdf)
+[Click here to view the documenation](./document.pdf)
+
+[Click here to view the license](./LICENSE)
+
+
 
 
 # Architecture
