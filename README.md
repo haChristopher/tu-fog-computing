@@ -18,6 +18,14 @@ We used sensors to collect the weather data. We had two options for sourcing the
 |:--:|
 | *Data generation* |
 
+# Reliable messaging
+
+As our solution operates in a distributed fog environment we need to consider that outages on multiple edge devices or server nodes could occur. To address this challenge we implemented several mechanisms to counteract such failures. This mechanisms ensure: (i) reading sensor data is never blocked by connection issues, (ii) failed data is persisted to disk and gets retried and (iii) if the Station fails after a restart the persisted data gets resend. For more information about the implemented mechanisms see the doc file.
+
+| <img src="documentation/figures/reliable.drawio.png" alt="reliable messaging" width="90%"> |
+|:--:|
+| *Reliable messaging* |
+
 # Docker Compose for running Locally
 
 All 3 components can be run locally using docker-compose
